@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -15,7 +16,9 @@ import javafx.util.Duration;
 public class Main extends Application {
 
     private static boolean CLEAR_TRACE = false;
-    private static int STEP_X = 5;
+    private static int STEP_X = 3;
+
+    private static int STEPS_SIZE = 30;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -30,14 +33,31 @@ public class Main extends Application {
         Canvas canvas = new Canvas(controller.pane.getWidth(), controller.pane.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.setFill(Color.YELLOW);
+        gc.setFill(Color.LIGHTSKYBLUE);
         gc.setStroke(Color.BLACK);
 
         controller.pane.getChildren().add(canvas);
 
-        double xPoints[] = {20, 30, 30, 20, 10, 10};
-        double yPoints[] = {10, 20, 30, 40, 30, 20};
+        double xPointsStart[] = {250, 400, 400, 250, 100, 100};
+        double yPointsStart[] = {400, 300, 200, 100, 200, 300};
+
+        double xStep[] = new double[xPointsStart.length];
+        double yStep[] = new double[yPointsStart.length];
+
+        double xPointsFinish[] = {400, 400, 400, 100, 100, 100};
+        double yPointsFinish[] = {400, 400, 100, 100, 100, 400};
         int nPoints = 6;
+
+        for (int i = 0; i < xPointsStart.length; i++) {
+            xStep[i] = (xPointsFinish[i] - xPointsStart[i]) / STEPS_SIZE;
+        }
+
+        for (int i = 0; i < yPointsStart.length; i++) {
+            yStep[i] =(yPointsFinish[i] - yPointsStart[i]) / STEPS_SIZE;
+        }
+
+        gc.strokePolygon(xPointsStart, yPointsStart, nPoints);
+        gc.fillPolygon(xPointsStart, yPointsStart, nPoints);
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(100),
@@ -46,25 +66,33 @@ public class Main extends Application {
                                 gc.clearRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
                             }
 
-                            gc.strokePolygon(xPoints, yPoints, nPoints);
-                            gc.fillPolygon(xPoints, yPoints, nPoints);
-
-                            for (int i = 0; i < xPoints.length; i++){
-                                xPoints[i] += STEP_X;
+                            for (int i = 0; i < xPointsStart.length; i++) {
+                                xPointsStart[i] += xStep[i];
+                                xPointsStart[i] += STEP_X;
                             }
+
+                            for (int i = 0; i < yPointsStart.length; i++) {
+                                yPointsStart[i] += yStep[i];
+                            }
+
+                            gc.strokePolygon(xPointsStart, yPointsStart, nPoints);
+                            gc.fillPolygon(xPointsStart, yPointsStart, nPoints);
 
                         }
                 )
         );
 
-//        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setCycleCount(50);
-        timeline.play();
-//        timeline.stop();
-
+        controller.DRAW_BUTTON.setOnAction(e -> {
+            if(timeline.getStatus().equals(Animation.Status.RUNNING)){
+                timeline.stop();
+            }else {
+                timeline.setCycleCount(STEPS_SIZE);
+                CLEAR_TRACE = controller.CLEAR_TRACE.isSelected();
+                timeline.play();
+            }
+        });
 
     }
-
 
     public static void main(String[] args) {
         launch(args);
