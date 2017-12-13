@@ -10,7 +10,7 @@
       <AnchorPane prefHeight="800.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="768.0" AnchorPane.topAnchor="0.0">
          <children>
             <CheckBox fx:id="CLEAR_TRACE" layoutX="26.0" layoutY="30.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="151.0" text="Оставлять след" />
-            <Button fx:id="DRAW_BUTTON" layoutX="38.0" layoutY="122.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="161.0" text="Рисовать" />
+            <Button fx:id="DRAW_BUTTON" layoutX="38.0" layoutY="122.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="161.0" text="СТАРТ" />
          </children>
       </AnchorPane>
         <Pane fx:id="pane" layoutX="261.0" layoutY="14.0" prefHeight="600.0" prefWidth="200.0" style="-fx-border-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

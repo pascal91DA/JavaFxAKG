@@ -15,10 +15,25 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 
-    private static boolean CLEAR_TRACE = false;
-    private static int STEP_X = 3;
+    private static boolean TRACE = false;
+    private static int STEP_XY = 3;
 
     private static int STEPS_SIZE = 30;
+
+    private double xPointsStart[] = {250, 400, 400, 250, 100, 100};
+    private double yPointsStart[] = {400, 300, 200, 100, 200, 300};
+
+    private double xPoints[] = {250, 400, 400, 250, 100, 100};
+    private double yPoints[] = {400, 300, 200, 100, 200, 300};
+
+    private double xStep[] = new double[xPointsStart.length];
+    private double yStep[] = new double[yPointsStart.length];
+
+    private double xPointsFinish[] = {400, 400, 400, 100, 100, 100};
+    private double yPointsFinish[] = {400, 400, 100, 100, 100, 400};
+    private int nPoints = 6;
+
+    private Timeline timeline;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -38,16 +53,6 @@ public class Main extends Application {
 
         controller.pane.getChildren().add(canvas);
 
-        double xPointsStart[] = {250, 400, 400, 250, 100, 100};
-        double yPointsStart[] = {400, 300, 200, 100, 200, 300};
-
-        double xStep[] = new double[xPointsStart.length];
-        double yStep[] = new double[yPointsStart.length];
-
-        double xPointsFinish[] = {400, 400, 400, 100, 100, 100};
-        double yPointsFinish[] = {400, 400, 100, 100, 100, 400};
-        int nPoints = 6;
-
         for (int i = 0; i < xPointsStart.length; i++) {
             xStep[i] = (xPointsFinish[i] - xPointsStart[i]) / STEPS_SIZE;
         }
@@ -56,42 +61,51 @@ public class Main extends Application {
             yStep[i] =(yPointsFinish[i] - yPointsStart[i]) / STEPS_SIZE;
         }
 
-        gc.strokePolygon(xPointsStart, yPointsStart, nPoints);
-        gc.fillPolygon(xPointsStart, yPointsStart, nPoints);
-
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(100),
-                        event -> {
-                            if(CLEAR_TRACE){
-                                gc.clearRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
-                            }
-
-                            for (int i = 0; i < xPointsStart.length; i++) {
-                                xPointsStart[i] += xStep[i];
-                                xPointsStart[i] += STEP_X;
-                            }
-
-                            for (int i = 0; i < yPointsStart.length; i++) {
-                                yPointsStart[i] += yStep[i];
-                            }
-
-                            gc.strokePolygon(xPointsStart, yPointsStart, nPoints);
-                            gc.fillPolygon(xPointsStart, yPointsStart, nPoints);
-
-                        }
-                )
-        );
+        gc.strokePolygon(xPoints, yPoints, nPoints);
+        gc.fillPolygon(xPoints, yPoints, nPoints);
 
         controller.DRAW_BUTTON.setOnAction(e -> {
-            if(timeline.getStatus().equals(Animation.Status.RUNNING)){
+            if(timeline != null && timeline.getStatus().equals(Animation.Status.RUNNING)){
                 timeline.stop();
+                controller.DRAW_BUTTON.setText("СТАРТ");
             }else {
+                restart();
+                gc.clearRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
+                timeline = new Timeline(
+                        new KeyFrame(Duration.millis(100),
+                                event -> {
+                                    if(!TRACE){
+                                        gc.clearRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
+                                    }
+
+                                    for (int i = 0; i < xPoints.length; i++) {
+                                        xPoints[i] += xStep[i];
+                                        xPoints[i] += STEP_XY;
+                                        yPoints[i] += yStep[i];
+                                        yPoints[i] += STEP_XY;
+                                    }
+
+                                    gc.strokePolygon(xPoints, yPoints, nPoints);
+                                    gc.fillPolygon(xPoints, yPoints, nPoints);
+
+                                }
+                        )
+                );
+
                 timeline.setCycleCount(STEPS_SIZE);
-                CLEAR_TRACE = controller.CLEAR_TRACE.isSelected();
+                TRACE = controller.CLEAR_TRACE.isSelected();
                 timeline.play();
+                controller.DRAW_BUTTON.setText("СТОП");
             }
         });
 
+    }
+
+    private void restart(){
+        for (int i = 0; i < xPointsStart.length; i++) {
+            xPoints[i] = xPointsStart[i];
+            yPoints[i] = yPointsStart[i];
+        }
     }
 
     public static void main(String[] args) {
