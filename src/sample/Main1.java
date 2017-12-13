@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Main extends Application {
+public class Main1 extends Application {
 
     private static boolean TRACE = false;
     private static int STEP_XY = 3;
