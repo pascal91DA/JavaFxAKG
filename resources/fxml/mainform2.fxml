@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="z1.Controller">
     <children>
-        <Pane fx:id="pane" layoutX="261.0" layoutY="14.0" prefHeight="600.0" prefWidth="200.0" style="-fx-border-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <AnchorPane prefHeight="800.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="768.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="DRAW_BUTTON" layoutX="39.0" layoutY="35.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="161.0" text="СТАРТ" />
+            </children>
+        </AnchorPane>
+        <Pane fx:id="pane" layoutX="261.0" layoutY="14.0" prefHeight="600.0" prefWidth="200.0" style="-fx-border-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="256.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </children>
 </AnchorPane>

@@ -1,4 +1,4 @@
-package sample;
+package z1;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -16,7 +16,7 @@ import javafx.util.Duration;
 public class Main1 extends Application {
 
     private static boolean TRACE = false;
-    private static int STEP_XY = 3;
+    private static int STEP_XY = 5;
 
     private static int STEPS_SIZE = 30;
 
@@ -58,23 +58,24 @@ public class Main1 extends Application {
         }
 
         for (int i = 0; i < yPointsStart.length; i++) {
-            yStep[i] =(yPointsFinish[i] - yPointsStart[i]) / STEPS_SIZE;
+            yStep[i] = (yPointsFinish[i] - yPointsStart[i]) / STEPS_SIZE;
         }
 
         gc.strokePolygon(xPoints, yPoints, nPoints);
-        gc.fillPolygon(xPoints, yPoints, nPoints);
-
+        if (controller.filling.isSelected()) {
+            gc.fillPolygon(xPoints, yPoints, nPoints);
+        }
         controller.DRAW_BUTTON.setOnAction(e -> {
-            if(timeline != null && timeline.getStatus().equals(Animation.Status.RUNNING)){
+            if (timeline != null && timeline.getStatus().equals(Animation.Status.RUNNING)) {
                 timeline.stop();
                 controller.DRAW_BUTTON.setText("СТАРТ");
-            }else {
+            } else {
                 restart();
                 gc.clearRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
                 timeline = new Timeline(
                         new KeyFrame(Duration.millis(100),
                                 event -> {
-                                    if(!TRACE){
+                                    if (!TRACE) {
                                         gc.clearRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
                                     }
 
@@ -86,7 +87,9 @@ public class Main1 extends Application {
                                     }
 
                                     gc.strokePolygon(xPoints, yPoints, nPoints);
-                                    gc.fillPolygon(xPoints, yPoints, nPoints);
+                                    if (controller.filling.isSelected()) {
+                                        gc.fillPolygon(xPoints, yPoints, nPoints);
+                                    }
 
                                 }
                         )
@@ -101,7 +104,7 @@ public class Main1 extends Application {
 
     }
 
-    private void restart(){
+    private void restart() {
         for (int i = 0; i < xPointsStart.length; i++) {
             xPoints[i] = xPointsStart[i];
             yPoints[i] = yPointsStart[i];

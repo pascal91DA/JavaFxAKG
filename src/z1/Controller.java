@@ -1,10 +1,9 @@
-package sample;
+package z1;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class Controller {
 
@@ -16,4 +15,7 @@ public class Controller {
 
     @FXML
     public Button DRAW_BUTTON;
+
+    @FXML
+    public CheckBox filling;
 }
