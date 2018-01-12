@@ -13,7 +13,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Fx3DShapeExample1 extends Application {
+public class Main4 extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -94,7 +94,7 @@ public class Fx3DShapeExample1 extends Application {
 
         MeshView meshView = new MeshView();
         meshView.setMesh(mesh);
-        meshView.setMaterial(new PhongMaterial(Color.RED));
+        meshView.setMaterial(new PhongMaterial(Color.WHITE));
         // meshView.setDrawMode(DrawMode.LINE);
         meshView.setTranslateX(400);
         meshView.setTranslateY(300);
@@ -136,13 +136,13 @@ public class Fx3DShapeExample1 extends Application {
         textZ.setText("Z");
 
         AmbientLight light = new AmbientLight();
-        light.setColor(Color.GRAY);
+        light.setColor(Color.rgb(160, 160, 160));
 
         PointLight pointLight = new PointLight();
         pointLight.setTranslateX(400);
         pointLight.setTranslateY(200);
         pointLight.setTranslateZ(-1000);
-        pointLight.setColor(Color.GRAY);
+        pointLight.setColor(Color.rgb(60, 60, 60));
 
         Cylinder cylinder = new Cylinder(100, 200, 6);
         cylinder.setTranslateX(400);

@@ -17,6 +17,8 @@ import z1.Controller;
 public class Main2 extends Application {
 
     private static boolean TRACE = false;
+    private static boolean FILL = false;
+    private static boolean INNER = true;
     private static int STEP_XY = 5;
 
     private static int STEPS_SIZE = 60;
@@ -54,14 +56,9 @@ public class Main2 extends Application {
         Canvas canvas = new Canvas(controller.pane.getWidth(), controller.pane.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.setFill(Color.LIGHTSKYBLUE);
         gc.setStroke(Color.BLACK);
-
         gc.setFill(Color.WHITE);
-        gc.strokePolygon(formPoints[0], formPoints[1], formPoints[0].length);
-        gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
         gc.fillRect(0, 0, controller.pane.getWidth(), controller.pane.getHeight());
-
 
         controller.pane.getChildren().add(canvas);
 
@@ -73,9 +70,16 @@ public class Main2 extends Application {
             yStep[i] = (yPointsFinish[i] - yPointsStart[i]) / STEPS_SIZE;
         }
 
+        gc.setFill(Color.LIGHTSKYBLUE);
         gc.strokePolygon(xPoints, yPoints, nPoints);
+        if(FILL) {
+            gc.fillPolygon(xPoints, yPoints, nPoints);
+        }
         gc.strokePolygon(formPoints[0], formPoints[1], formPoints[0].length);
-        gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
+        gc.setFill(Color.WHITE);
+        if(INNER) {
+            gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
+        }
         controller.DRAW_BUTTON.setOnAction(e -> {
             if (timeline != null && timeline.getStatus().equals(Animation.Status.RUNNING)) {
                 timeline.stop();
@@ -99,16 +103,25 @@ public class Main2 extends Application {
                                         yPoints[i] += STEP_XY;
                                     }
 
+                                    gc.setFill(Color.LIGHTSKYBLUE);
                                     gc.strokePolygon(xPoints, yPoints, nPoints);
+                                    if(FILL) {
+                                        gc.fillPolygon(xPoints, yPoints, nPoints);
+                                    }
+                                    gc.setFill(Color.WHITE);
                                     gc.strokePolygon(formPoints[0], formPoints[1], formPoints[0].length);
-                                    gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
+                                    gc.setFill(Color.WHITE);
+                                    if(INNER) {
+                                        gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
+                                    }
 
                                 }
                         )
                 );
 
                 timeline.setCycleCount(STEPS_SIZE);
-                TRACE = false;
+                TRACE = true;
+                FILL = true;
                 timeline.play();
                 controller.DRAW_BUTTON.setText("СТОП");
             }
