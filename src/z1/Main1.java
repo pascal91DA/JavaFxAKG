@@ -16,7 +16,7 @@ import javafx.util.Duration;
 public class Main1 extends Application {
 
     private static boolean TRACE = false;
-    private static int STEP_XY = 5;
+    private static int STEP_XY = 10;
 
     private static int STEPS_SIZE = 30;
 

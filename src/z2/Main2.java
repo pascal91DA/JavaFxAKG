@@ -17,12 +17,12 @@ import z1.Controller;
 public class Main2 extends Application {
 
     private static boolean TRACE = false;
-    private static boolean FILL = false;
-    private static boolean INNER = true;
+    private static boolean FILL = true;
+    private static boolean INNER = false;
     private static int STEP_XY = 5;
 
     private static int STEPS_SIZE = 60;
-
+    private int code;
     private double xPointsStart[] = {250, 400, 400, 250, 100, 100};
     private double yPointsStart[] = {400, 300, 200, 100, 200, 300};
 
@@ -41,13 +41,23 @@ public class Main2 extends Application {
             {500, 500, 200, 200, 300, 300, 400, 400}
     };
 
+    private static double formPointsInner1[][] = {
+            {0, 800, 800, 0},
+            {500, 500, 800, 800}
+    };
+
+    private static double formPointsInner2[][] = {
+            {0, 800, 800, 500, 500, 200, 200, 400, 400, 200, 200, 0},
+            {0, 0,   800, 800, 200, 200, 300, 300, 400, 400, 500, 500}
+    };
+
     private Timeline timeline;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/mainform2.fxml"));
         Parent root = fxmlLoader.load();
-        primaryStage.setTitle("AKG");
+        primaryStage.setTitle("AKG 2");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -79,6 +89,9 @@ public class Main2 extends Application {
         gc.setFill(Color.WHITE);
         if(INNER) {
             gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
+        }else {
+            gc.fillPolygon(formPointsInner1[0], formPointsInner1[1], formPointsInner1[0].length);
+            gc.fillPolygon(formPointsInner2[0], formPointsInner2[1], formPointsInner2[0].length);
         }
         controller.DRAW_BUTTON.setOnAction(e -> {
             if (timeline != null && timeline.getStatus().equals(Animation.Status.RUNNING)) {
@@ -113,15 +126,15 @@ public class Main2 extends Application {
                                     gc.setFill(Color.WHITE);
                                     if(INNER) {
                                         gc.fillPolygon(formPoints[0], formPoints[1], formPoints[0].length);
+                                    }else {
+                                        gc.fillPolygon(formPointsInner1[0], formPointsInner1[1], formPointsInner1[0].length);
+                                        gc.fillPolygon(formPointsInner2[0], formPointsInner2[1], formPointsInner2[0].length);
                                     }
-
                                 }
                         )
                 );
 
                 timeline.setCycleCount(STEPS_SIZE);
-                TRACE = true;
-                FILL = true;
                 timeline.play();
                 controller.DRAW_BUTTON.setText("СТОП");
             }

@@ -136,12 +136,12 @@ public class Main4 extends Application {
         textZ.setText("Z");
 
         AmbientLight light = new AmbientLight();
-        light.setColor(Color.rgb(160, 160, 160));
+        light.setColor(Color.grayRgb(31));
 
         PointLight pointLight = new PointLight();
         pointLight.setTranslateX(400);
         pointLight.setTranslateY(200);
-        pointLight.setTranslateZ(-1000);
+        pointLight.setTranslateZ(-600);
         pointLight.setColor(Color.rgb(60, 60, 60));
 
         Cylinder cylinder = new Cylinder(100, 200, 6);
@@ -159,8 +159,40 @@ public class Main4 extends Application {
         camera.setRotationAxis(Rotate.X_AXIS);
         camera.setRotate(-20);
 
-        // Group root = new Group(lineX, textX, lineY, textY, lineZ, textZ, cylinder, meshView);
-        Group root = new Group(lineX, textX, lineY, textY, lineZ, textZ, meshView, light, pointLight);
+        Line l0 = new Line(points[0], points[2], points[3], points[5]);
+        Line l1 = new Line(points[3], points[5], points[6], points[8]);
+        Line l2 = new Line(points[6], points[8], points[9], points[11]);
+        Line l3 = new Line(points[9], points[11], points[12], points[14]);
+        Line l4 = new Line(points[12], points[14], points[15], points[17]);
+        Line l5 = new Line(points[15], points[17], points[18], points[20]);
+
+        Line l6 = new Line(points[0], points[2], points[3], points[5]);
+        Line l7 = new Line(points[3], points[5], points[6], points[8]);
+        Line l8 = new Line(points[6], points[8], points[9], points[11]);
+        Line l9 = new Line(points[9], points[11], points[12], points[14]);
+        Line l10 = new Line(points[12], points[14], points[15], points[17]);
+        Line l11 = new Line(points[15], points[17], points[18], points[20]);
+
+        Line l12 = new Line(points[15], points[17], points[18], points[20]);
+
+        Group lineUpperGroup = new Group(l0, l1, l2, l3, l4, l5);
+        lineUpperGroup.setRotationAxis(Rotate.X_AXIS);
+        lineUpperGroup.setRotate(90);
+        lineUpperGroup.setTranslateX(400);
+        lineUpperGroup.setTranslateY(200);
+        lineUpperGroup.setTranslateZ(0);
+
+        Group lineUnderGroup = new Group(l6, l7, l8, l9, l10, l11);
+        lineUnderGroup.setRotationAxis(Rotate.X_AXIS);
+        lineUnderGroup.setRotate(90);
+        lineUnderGroup.setTranslateX(400);
+        lineUnderGroup.setTranslateY(400);
+        lineUnderGroup.setTranslateZ(0);
+
+        Group hexagonGroup = new Group(lineUpperGroup, lineUnderGroup);
+        hexagonGroup.setRotationAxis(Rotate.Y_AXIS);
+
+        Group root = new Group(cylinder, light, lineX, textX, lineY, textY, lineZ, textZ);
 
         Scene scene = new Scene(root, 800, 600, true);
         scene.setCamera(camera);
@@ -176,7 +208,7 @@ public class Main4 extends Application {
                 event -> cylinder.setRotate(cylinder.getRotate() + 3));
 
         tl.getKeyFrames().add(moveBall);
-        //tl.play();
+        tl.play();
 
         Timeline t2 = new Timeline();
         t2.setCycleCount(Animation.INDEFINITE);
@@ -185,5 +217,13 @@ public class Main4 extends Application {
 
         t2.getKeyFrames().add(moveMesh);
         t2.play();
+
+        Timeline t3 = new Timeline();
+        t3.setCycleCount(Animation.INDEFINITE);
+        KeyFrame moveHexagonGroup = new KeyFrame(Duration.seconds(0.05),
+                event -> hexagonGroup.setRotate(hexagonGroup.getRotate() + 3));
+
+        t3.getKeyFrames().add(moveHexagonGroup);
+        t3.play();
     }
 }
